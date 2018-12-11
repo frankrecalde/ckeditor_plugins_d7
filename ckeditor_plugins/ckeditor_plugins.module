@@ -1,0 +1,119 @@
+<?php
+
+/**
+ * @file
+ * Adds extra functionality to CKEditor.
+ */
+
+/**
+ * HTML preprocess.
+ */
+function ckeditor_plugins_preprocess_html(&$variables)
+{
+  // Expand/collapse
+  drupal_add_css(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/expandcollapse/css/ec.css', array(
+    'weight' => 1000,
+  ));
+
+  drupal_add_js(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/expandcollapse/js/expandcollapse.js', array(
+    'scope' => 'footer',
+    'group' => JS_DEFAULT,
+    'type' => 'file',
+    'weight' => 1000,
+    'preprocess' => true,
+  ));
+
+  // Responsive tabs
+  drupal_add_css(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/responsive_tabs/css/responsive_tabs.css', array(
+    'weight' => 1000,
+  ));
+
+  drupal_add_js(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/responsive_tabs/js/responsive_tabs.js', array(
+    'scope' => 'footer',
+    'group' => JS_DEFAULT,
+    'type' => 'file',
+    'weight' => 1000,
+    'preprocess' => true,
+  ));
+}
+
+function ckeditor_plugins_wysiwyg_plugin($editor, $version)
+{
+  switch ($editor) {
+    case 'ckeditor':
+      return array(
+                // This key (youtube) needs to be the same as the plugin name used in
+                // CKEDITOR.plugins.add() in plugin.js
+        'expandcollapse' => array(
+                    // A URL to the plugin's homepage.
+          'url' => '',
+                    // The full path to the native editor plugin, no trailing slash.
+                    // Ignored when 'internal' is set to TRUE below.
+          'path' => drupal_get_path('module', 'ckeditor_plugins') . '/plugins/expandcollapse',
+                    // The name of the plugin's main JavaScript file.
+                    // Ignored when 'internal' is set to TRUE below.
+                    // Default value depends on which editor the plugin is for.
+          'filename' => 'plugin.js',
+                    // A list of buttons provided by this native plugin. The key has to
+                    // match the corresponding JavaScript implementation - when it's
+                    // created using editor.ui.addButton(). The value is is displayed on
+                    // the editor configuration form only.
+          'buttons' => array(
+            'ExpandCollapseButton' => t('Show all / Hide all'),
+          ),
+                    // Boolean whether the editor needs to load this plugin. When TRUE,
+                    // the editor will automatically load the plugin based on the 'path'
+                    // variable provided. If FALSE, the plugin either does not need to
+                    // be loaded or is already loaded by something else on the page.
+                    // Most plugins should define TRUE here.
+          'load' => true,
+                    // Boolean whether this plugin is a native plugin, i.e. shipped with
+                    // the editor. Definition must be ommitted for plugins provided by
+                    // other modules. TRUE means 'path' and 'filename' above are ignored
+                    // and the plugin is instead loaded from the editor's plugin folder.
+          'internal' => false,
+        ),
+        'responsive_tabs' => array(
+          'path' => drupal_get_path('module', 'ckeditor_plugins') . '/plugins/responsive_tabs',
+          'filename' => 'plugin.js',
+          'css' => array(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/responsive_tabs/css/responsive_tabs.css'),
+          'buttons' => array(
+            'ResponsiveTabs' => t('Responsive Tabs'),
+          ),
+          'load' => true,
+          'internal' => false,
+        ),
+        'myservice_link' => array(
+          'path' => drupal_get_path('module', 'ckeditor_plugins') . '/plugins/myservice_link',
+          'filename' => 'plugin.js',
+          'css' => array(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/myservice_link/css/myservice_link.css'),
+          'buttons' => array(
+            'MyServiceLinkButton' => t('Insert MyService link'),
+          ),
+          'load' => true,
+          'internal' => false,
+        ),
+        'myaccount_link' => array(
+          'path' => drupal_get_path('module', 'ckeditor_plugins') . '/plugins/myaccount_link',
+          'filename' => 'plugin.js',
+          'css' => array(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/myaccount_link/css/myaccount_link.css'),
+          'buttons' => array(
+            'MyAccountLinkButton' => t('Insert MyAccount link'),
+          ),
+          'load' => true,
+          'internal' => false,
+        ),
+        'custom_button_link' => array(
+          'path' => drupal_get_path('module', 'ckeditor_plugins') . '/plugins/custom_button_link',
+          'filename' => 'plugin.js',
+          'css' => array(drupal_get_path('module', 'ckeditor_plugins') . '/plugins/custom_button_link/css/custom_button_link.css'),
+          'buttons' => array(
+              'CustomButtonLink' => t('Insert custom button link'),
+          ),
+          'load' => TRUE,
+          'internal' => false,
+        ),
+      );
+      break;
+  }
+}

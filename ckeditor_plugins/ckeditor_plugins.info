@@ -1,0 +1,6 @@
+name = CKEditor Plugins
+description = Custom plugins to add functionality to CKEditor
+package = Custom
+core = 7.x
+
+dependencies[] = wysiwyg
